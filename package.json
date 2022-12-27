@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "boostrap": "^2.0.0",
+    "bootstrap": "^5.2.3",
+    "sass": "^1.57.0"
+  },
+  "name": "les-petits-plats",
+  "version": "1.0.0",
+  "description": "Projet 7 OC",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css"
+  },
+  "author": "Allan D",
+  "license": "ISC"
+}
