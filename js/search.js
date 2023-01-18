@@ -15,7 +15,7 @@ const dataRecipe = async () => {
     return recipesData
 }
 
-//Constante DOM
+//DOM elements
 const searchInput = document.querySelector('.input-search');
 const dropdownToggle = document.querySelectorAll('.dropdown-toggle');
 const arrowExpand = document.querySelectorAll('.expand');
@@ -26,11 +26,14 @@ const ustensilsList = document.querySelector('.ustensil-list');
 const tagList = document.getElementById("tags")
 let recipesList = document.getElementById('bloc-recipe');
 
-
 //Variables
 let itemsRecipes = []
 let remainingRecipes = [];
 let tagSelected = [];
+
+const reloadRemainingRecipes = () => {
+    remainingRecipes = itemsRecipes
+}
 
 //Initialisation des données dans les variables de travail
 const setDataSearch = (data) => {
@@ -61,7 +64,6 @@ const displayRecipes = (cardRecipes) => {
 const capitalize = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
 };
-
 
 // Affichage des options par ingrédients/appareils/ustensiles
 const displayOption = (recipes, optionCategory) => {
@@ -106,8 +108,6 @@ const displayOption = (recipes, optionCategory) => {
     }
 }
 
-
-
 // Maj liste si vide
 const reloadRecipesList = () => {
     if (tagList.children.length == 0 && searchInput.value == "") {
@@ -117,16 +117,13 @@ const reloadRecipesList = () => {
     displayRecipes(remainingRecipes);
 }
 
-// Création et affichage d'un tag
+//Affichage d'un tag
 for (items of dropdownMenu) {
     items.addEventListener('click', (e) => {
         e.preventDefault()
-
         let item = e.target.textContent
         tagSelected.push(item);
-
         createTag(item)
-
         if (e.target.classList.contains('ingredient-item')) {
             tagList.lastChild.classList.add('btn-primary')
 
@@ -157,7 +154,6 @@ const createTag = (value) => {
     spanIcon.appendChild(img);
 
     deleteTag()
-
 }
 
 //Suppression d'un tag au clic
@@ -178,8 +174,6 @@ const deleteTag = () => {
         updateRecipes(searchInput.value)
         reloadRecipesList()
     })
-
-
 }
 
 // MaJ après suppression tag/champ de recherche
@@ -215,12 +209,9 @@ const updateRecipes = (value) => {
             if (foundIngredients) {
                 result.push(recipes)
             }
-
         }
     }
-
     remainingRecipes = Array.from(new Set(result));
-
 }
 
 // Recherche des recettes par ingrédients , appareils et ustensil au click sur une valeur des options.
@@ -233,14 +224,12 @@ const displayRecipeByTags = (tag) => {
         if (foundAppliance) {
             result.push(recipes)
         }
-
         for (ustensil of recipes.ustensils) {
             const foundUstensils = ustensil.toLowerCase().includes(value)
             if (foundUstensils) {
                 result.push(recipes)
             }
         }
-
         for (ingredient of recipes.ingredients) {
             const foundIngredients = ingredient.ingredient.toLowerCase().includes(value);
 
@@ -276,25 +265,19 @@ searchInput.addEventListener("keyup", (e) => {
             if (foundIngredients) {
                 result.push(recipes)
             }
-
         }
-
     }
 
     remainingRecipes = Array.from(new Set(result))
-
     if (value.length >= 3) {
         displayRecipes(remainingRecipes)
-
     } else {
         reloadRemainingRecipes()
         for (let tag of tagSelected) {
             updateRecipes(tag)
         }
     }
-
     reloadRecipesList()
-
 })
 
 //recherche des ingredients, appareils et ustensils avec la barre de recherche des filtre d'option.
@@ -371,7 +354,6 @@ for (dropdownInput of dropdownToggle) {
             if (e.target.classList.contains('btn-danger')) {
                 ustensilsList.innerHTML = ""
                 for (items of resultUstensil) {
-                    console.log(items)
                     ustensilsList.innerHTML += `<li class="col-4 bg-danger"><a class="dropdown-item appliance-item" href="#">${items}</a></li> `
                 }
             }
@@ -389,16 +371,11 @@ for (dropdownInput of dropdownToggle) {
                     applianceList.innerHTML += `<li class="col-4 bg-success"><a class="dropdown-item ustensils-item" href="#">${items}</a></li> `
                 }
             }
-
-
         }
-
     })
 }
 
-const reloadRemainingRecipes = () => {
-    remainingRecipes = itemsRecipes
-}
+
 
 
 const init = async () => {
